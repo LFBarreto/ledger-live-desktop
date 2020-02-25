@@ -2,23 +2,23 @@
 
 import React from "react";
 import styled from "styled-components";
-import type { ThemedComponent } from "~/renderer/styles/StyleProvider";
 
 import { Trans } from "react-i18next";
-
-import FormattedVal from "~/renderer/components/FormattedVal";
 import { formatCurrencyUnit } from "@ledgerhq/live-common/lib/currencies";
 import { BigNumber } from "bignumber.js";
+
 import Box from "~/renderer/components/Box/Box";
 import Text from "~/renderer/components/Text";
+import InfoCircle from "~/renderer/icons/InfoCircle";
+import ToolTip from "~/renderer/components/Tooltip";
 
-const Wrapper: ThemedComponent<{}> = styled.div`
-  display: flex;
-  flex-direction: row;
+const Wrapper = styled(Box).attrs(() => ({
+  horizontal: true,
+  mt: 4,
+  p: 5,
+  pb: 0,
+}))`
   border-top: 1px solid ${p => p.theme.colors.palette.text.shade10};
-  margin-top: ${p => p.theme.space[4]}px;
-  padding: ${p => p.theme.space[5]}px;
-  padding-bottom: 0;
 `;
 
 const BalanceDetail = styled(Box).attrs(() => ({
@@ -27,14 +27,35 @@ const BalanceDetail = styled(Box).attrs(() => ({
   alignItems: "start",
 }))``;
 
-const Title = styled(Text)``;
+const TitleWrapper = styled(Box).attrs(() => ({ horizontal: true, alignItems: "center", mb: 1 }))``;
+
+const Title = styled(Text).attrs(() => ({
+  fontSize: 4,
+  ff: "Inter|Medium",
+  color: "palette.text.shade60",
+}))`
+  line-height: ${p => p.theme.space[4]}px;
+  margin-right: ${p => p.theme.space[1]}px;
+`;
+
+const AmountValue = styled(Text).attrs(() => ({
+  fontSize: 6,
+  ff: "Inter|SemiBold",
+  color: "palette.text.shade100",
+}))``;
 
 type Props = {
   account: any,
   countervalue: any,
 };
 
-const Header = ({ account, countervalue }: Props) => {
+const formatConfig = {
+  disableRounding: true,
+  alwaysShowSign: false,
+  showCode: true,
+};
+
+const AccountBalanceSummaryFooter = ({ account, countervalue }: Props) => {
   const {
     frozen: {
       bandwidth: { amount: bandwidthAmount } = {},
@@ -44,20 +65,12 @@ const Header = ({ account, countervalue }: Props) => {
     bandwidth: { freeUsed, freeLimit, gainedUsed, gainedLimit } = {},
   } = account.tronResources;
 
-  const spendableBalance = formatCurrencyUnit(account.unit, account.spendableBalance, {
-    disableRounding: true,
-    alwaysShowSign: false,
-    showCode: true,
-  });
+  const spendableBalance = formatCurrencyUnit(account.unit, account.spendableBalance, formatConfig);
 
   const frozenAmount = formatCurrencyUnit(
     account.unit,
     BigNumber(bandwidthAmount || 0).plus(BigNumber(energyAmount || 0)),
-    {
-      disableRounding: true,
-      alwaysShowSign: false,
-      showCode: true,
-    },
+    formatConfig,
   );
 
   const formatedEnergy = energy;
@@ -67,31 +80,51 @@ const Header = ({ account, countervalue }: Props) => {
   return (
     <Wrapper>
       <BalanceDetail>
-        <Title>
-          <Trans i18nKey="account.availableBalance" />
-        </Title>
-        <Text>{spendableBalance}</Text>
+        <ToolTip content={<Trans i18nKey="account.availableBalance" />}>
+          <TitleWrapper>
+            <Title>
+              <Trans i18nKey="account.availableBalance" />
+            </Title>
+            <InfoCircle size={13} />
+          </TitleWrapper>
+        </ToolTip>
+        <AmountValue>{spendableBalance}</AmountValue>
       </BalanceDetail>
       <BalanceDetail>
-        <Title>
-          <Trans i18nKey="account.frozenAssets" />
-        </Title>
-        <Text>{frozenAmount}</Text>
+        <ToolTip content={<Trans i18nKey="account.frozenAssets" />}>
+          <TitleWrapper>
+            <Title>
+              <Trans i18nKey="account.frozenAssets" />
+            </Title>
+            <InfoCircle size={13} />
+          </TitleWrapper>
+        </ToolTip>
+        <AmountValue>{frozenAmount}</AmountValue>
       </BalanceDetail>
       <BalanceDetail>
-        <Title>
-          <Trans i18nKey="account.bandwidth" />
-        </Title>
-        <Text>{formatedBandwidth}</Text>
+        <ToolTip content={<Trans i18nKey="account.bandwidth" />}>
+          <TitleWrapper>
+            <Title>
+              <Trans i18nKey="account.bandwidth" />
+            </Title>
+            <InfoCircle size={13} />
+          </TitleWrapper>
+        </ToolTip>
+        <AmountValue>{formatedBandwidth || "–"}</AmountValue>
       </BalanceDetail>
       <BalanceDetail>
-        <Title>
-          <Trans i18nKey="account.energy" />
-        </Title>
-        <Text>{formatedEnergy}</Text>
+        <ToolTip content={<Trans i18nKey="account.energy" />}>
+          <TitleWrapper>
+            <Title>
+              <Trans i18nKey="account.energy" />
+            </Title>
+            <InfoCircle size={13} />
+          </TitleWrapper>
+        </ToolTip>
+        <AmountValue>{formatedEnergy || "–"}</AmountValue>
       </BalanceDetail>
     </Wrapper>
   );
 };
 
-export default Header;
+export default AccountBalanceSummaryFooter;

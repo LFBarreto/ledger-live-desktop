@@ -611,6 +611,17 @@
     "value": "Value",
     "header": "Account allocation ({{count}})"
   },
+  "tron": {
+    "voting": {
+      "claimRewards": "Claim rewards",
+      "claimAvailableRewards": "Claim {{amount}}",
+      "title": "Claim rewards",
+      "header": "Votes",
+      "Amount": "Amount",
+      "percentageTP": "% of used TP",
+      "noRewards": "No rewards available"
+    }
+  },
   "delegation": {
     "title": "Earn rewards",
     "header": "Delegation",
@@ -625,7 +636,7 @@
     "durationDays": "{{count}} day",
     "durationDays_plural": "{{count}} days",
     "howItWorks": "How delegation works",
-    "delegationEarn": "You can now earn Tezos staking rewards by delegating your account.",
+    "delegationEarn": "You can now earn {{name}} staking rewards by delegating your account.",
     "earnRewards": "Earn rewards",
     "overdelegated": "Overdelegated",
     "flow": {

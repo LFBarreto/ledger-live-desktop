@@ -22,10 +22,14 @@ const Wrapper = styled(Box).attrs(() => ({
 `;
 
 const BalanceDetail = styled(Box).attrs(() => ({
-  flex: 1,
+  flex: 1.25,
   vertical: true,
   alignItems: "start",
-}))``;
+}))`
+  &:nth-child(n + 3) {
+    flex: 0.75;
+  }
+`;
 
 const TitleWrapper = styled(Box).attrs(() => ({ horizontal: true, alignItems: "center", mb: 1 }))``;
 

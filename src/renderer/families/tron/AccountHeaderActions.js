@@ -2,18 +2,39 @@
 
 import React from "react";
 import styled from "styled-components";
-import type { ThemedComponent } from "~/renderer/styles/StyleProvider";
 
-const Wrapper: ThemedComponent<{}> = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding: 16px 20px;
-  color: red;
-  font-weight: bold;
+import { Trans } from "react-i18next";
+
+import Button from "~/renderer/components/Button";
+import Box from "~/renderer/components/Box/Box";
+import IconChartLine from "~/renderer/icons/ChartLine";
+
+const ButtonBase = styled(Button)`
+  height: 34px;
+  padding-top: 0;
+  padding-bottom: 0;
 `;
 
-const Header = () => {
-  return <Wrapper>account header actions</Wrapper>;
+type Props = {
+  account: AccountLike,
+  parentAccount: ?Account,
 };
 
-export default Header;
+const AccountHeaderActions = ({ account, parentAccount }: Props) => {
+  const { tronResources: { tronPower } = {} } = account;
+
+  return (
+    <ButtonBase primary onClick={() => {}}>
+      <Box horizontal flow={1} alignItems="center">
+        <IconChartLine size={12} />
+        <Box>
+          <Trans
+            i18nKey={tronPower > 0 ? "tron.voting.manageTP" : "tron.voting.claimAvailableRewards"}
+          />
+        </Box>
+      </Box>
+    </ButtonBase>
+  );
+};
+
+export default AccountHeaderActions;

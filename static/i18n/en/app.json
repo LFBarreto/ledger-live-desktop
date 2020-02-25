@@ -613,6 +613,7 @@
   },
   "tron": {
     "voting": {
+      "manageTP": "Manage Tron Power",
       "claimRewards": "Claim rewards",
       "claimAvailableRewards": "Claim {{amount}}",
       "title": "Claim rewards",

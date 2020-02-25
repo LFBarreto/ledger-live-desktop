@@ -97,12 +97,13 @@ const Delegation = ({ account, parentAccount }: Props) => {
               disabled={!hasRewards}
               primary
               onClick={() => {
-                dispatch(
-                  openModal("MODAL_DELEGATE", {
-                    parentAccount,
-                    account,
-                  }),
-                );
+                // @TODO open claim rewards transaction modal
+                // dispatch(
+                //   openModal("MODAL_DELEGATE", {
+                //     parentAccount,
+                //     account,
+                //   }),
+                // );
               }}
             >
               <Box horizontal flow={1} alignItems="center">
@@ -158,12 +159,13 @@ const Delegation = ({ account, parentAccount }: Props) => {
             <Button
               primary
               onClick={() => {
-                dispatch(
-                  openModal("MODAL_DELEGATE", {
-                    parentAccount,
-                    account,
-                  }),
-                );
+                // @TODO open voting flow modal
+                // dispatch(
+                //   openModal("MODAL_DELEGATE", {
+                //     parentAccount,
+                //     account,
+                //   }),
+                // );
               }}
             >
               <Box horizontal flow={1} alignItems="center">

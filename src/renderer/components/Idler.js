@@ -6,12 +6,13 @@ import { autoLockTimeoutSelector } from "~/renderer/reducers/settings";
 import { lock } from "~/renderer/actions/application";
 
 import { useDebouncedCallback } from "~/renderer/hooks/useDebounce";
-import { hasPasswordSelector } from "~/renderer/reducers/application";
+import { hasPasswordSelector, isLockDisabled } from "~/renderer/reducers/application";
 
 const Idler = () => {
   const [lastAction, setLastAction] = useState(-1);
   const autoLockTimeout = useSelector(autoLockTimeoutSelector);
   const hasPassword = useSelector(hasPasswordSelector);
+  const disabledLock = useSelector(isLockDisabled);
   const dispatch = useDispatch();
 
   const debounceOnChange = useDebouncedCallback(() => setLastAction(Date.now()), 1000, {
@@ -34,7 +35,7 @@ const Idler = () => {
   useEffect(() => {
     let timeout = null;
 
-    if (hasPassword && autoLockTimeout && autoLockTimeout !== -1) {
+    if (!disabledLock && hasPassword && autoLockTimeout && autoLockTimeout !== -1) {
       timeout = setTimeout(() => {
         dispatch(lock());
       }, autoLockTimeout * 60000);
@@ -45,7 +46,7 @@ const Idler = () => {
         clearTimeout(timeout);
       }
     };
-  }, [lastAction, autoLockTimeout, hasPassword, dispatch]);
+  }, [disabledLock, lastAction, autoLockTimeout, hasPassword, dispatch]);
 
   return null;
 };

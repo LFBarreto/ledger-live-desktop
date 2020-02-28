@@ -23,6 +23,7 @@ import AppDepsInstallModal from "./AppDepsInstallModal";
 import AppDepsUnInstallModal from "./AppDepsUnInstallModal";
 
 import ErrorModal from "~/renderer/modals/ErrorModal/index";
+import LockGuard from "~/renderer/components/LockGuard";
 
 const Container = styled.div`
   display: flex;
@@ -89,6 +90,7 @@ const AppsList = ({ deviceInfo, result, exec, t }: Props) => {
       {currentError && (
         <ErrorModal isOpened={!!currentError} error={currentError.error} onClose={onCloseError} />
       )}
+      <LockGuard when={jobInProgress} />
       <NavigationGuard
         analyticsName="ManagerGuardModal"
         when={jobInProgress}

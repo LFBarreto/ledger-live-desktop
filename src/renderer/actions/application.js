@@ -9,6 +9,11 @@ export const lock = createAction("APPLICATION_SET_DATA", () => ({
   isLocked: true,
   hasPassword: true,
 }));
+
+export const disableLock = createAction("APPLICATION_SET_DATA", (lockDisabled: boolean) => ({
+  lockDisabled,
+}));
+
 export const setHasPassword = createAction("APPLICATION_SET_DATA", hasPassword => ({
   hasPassword,
 }));

@@ -75,7 +75,7 @@ const iconsComponent = {
   REVEAL: IconEye,
   CREATE: IconPlus,
   NONE: IconSend,
-  // TODO
+  // @TODO replace icons
   FREEZE: IconSend,
   UNFREEZE: IconSend,
   VOTE: IconSend,

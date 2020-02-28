@@ -14,6 +14,7 @@ SendRecipientFields.js \
 SendWarning.js \
 ReceiveWarning.js \
 AccountBalanceSummaryFooter.js \
+DelegationModal.js \
 "
 
 cd ../src/renderer

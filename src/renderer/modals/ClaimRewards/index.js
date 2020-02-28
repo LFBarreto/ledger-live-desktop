@@ -5,28 +5,26 @@ import Modal from "~/renderer/components/Modal";
 import Body from "./Body";
 import type { StepId } from "./types";
 
-type State = {
-  stepId: StepId,
-};
-
-class SendModal extends PureComponent<{}, State> {
+class ClaimRewardsModal extends PureComponent<{}, { stepId: StepId }> {
   state = {
-    stepId: "starter",
+    stepId: "rewards",
   };
 
-  handleReset = () => this.setState({ stepId: "starter" });
+  handleReset = () =>
+    this.setState({
+      stepId: "rewards",
+    });
 
-  handleStepChange = (stepId: StepId) => {
-    this.setState({ stepId });
-  };
+  handleStepChange = (stepId: StepId) => this.setState({ stepId });
 
   render() {
     const { stepId } = this.state;
-    const isModalLocked = !["account", "confirmation"].includes(stepId);
+
+    const isModalLocked = !["device", "confirmation"].includes(stepId);
 
     return (
       <Modal
-        name="MODAL_DELEGATE"
+        name="MODAL_CLAIM_REWARDS"
         centered
         refocusWhenChange={stepId}
         onHide={this.handleReset}
@@ -44,4 +42,4 @@ class SendModal extends PureComponent<{}, State> {
   }
 }
 
-export default SendModal;
+export default ClaimRewardsModal;

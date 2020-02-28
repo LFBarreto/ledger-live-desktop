@@ -4,7 +4,7 @@ import { Trans } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { dismissBanner } from "~/renderer/actions/settings";
-import { haveUndelegatedAccountsSelector } from "~/renderer/actions/general";
+import { delegatableAccountsSelector } from "~/renderer/actions/general";
 import { dismissedBannerSelectorLoaded } from "~/renderer/reducers/settings";
 import { openModal } from "~/renderer/actions/modals";
 import Box, { Card } from "~/renderer/components/Box";
@@ -45,11 +45,11 @@ const LogoContainer = styled(Box).attrs(() => ({
 const DelegationBanner = () => {
   const dispatch = useDispatch();
   const isDismissed = useSelector(dismissedBannerSelectorLoaded("DELEGATION_BANNER"));
-  const hasUndelegated = useSelector(haveUndelegatedAccountsSelector);
+  const undelegatedAccounts = useSelector(delegatableAccountsSelector);
 
   const closeBanner = useCallback(() => dispatch(dismissBanner("DELEGATION_BANNER")), [dispatch]);
 
-  return hasUndelegated && !isDismissed ? (
+  return undelegatedAccounts && undelegatedAccounts.length && !isDismissed ? (
     <Card
       bg="palette.primary.main"
       style={{ overflow: "hidden" }}
@@ -75,7 +75,7 @@ const DelegationBanner = () => {
               primary
               inverted
               onClick={() => {
-                dispatch(openModal("MODAL_DELEGATE"));
+                dispatch(openModal("MODAL_DELEGATE", { account: undelegatedAccounts[0] }));
               }}
               mr={1}
             >

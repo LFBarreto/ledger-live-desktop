@@ -102,6 +102,7 @@ const Delegation = ({ account, parentAccount }: Props) => {
                   openModal("MODAL_CLAIM_REWARDS", {
                     parentAccount,
                     account,
+                    reward: unwithdrawnReward,
                   }),
                 );
               }}

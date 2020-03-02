@@ -17,6 +17,7 @@ import StepConnectDevice, { StepConnectDeviceFooter } from "./steps/StepConnectD
 import StepConfirmation from "./steps/StepConfirmation";
 
 import type { StepId, StepProps } from "./types";
+import type { BigNumber } from "bignumber.js";
 
 type OwnProps = {|
   stepId: StepId,
@@ -30,6 +31,7 @@ type OwnProps = {|
     parentAccount: ?Account,
     startWithWarning?: boolean,
     receiveTokenMode?: boolean,
+    reward?: BigNumber,
   },
 |};
 
@@ -49,21 +51,21 @@ type Props = {|
 const createSteps = (): Array<St> => [
   {
     id: "rewards",
-    label: <Trans i18nKey="receive.steps.chooseAccount.title" />,
+    label: <Trans i18nKey="claimRewards.steps.rewards.title" />,
     component: StepRewards,
     noScroll: true,
     footer: StepRewardsFooter,
   },
   {
     id: "device",
-    label: <Trans i18nKey="receive.steps.connectDevice.title" />,
+    label: <Trans i18nKey="claimRewards.steps.connectDevice.title" />,
     component: StepConnectDevice,
     footer: StepConnectDeviceFooter,
     onBack: ({ transitionTo }: StepProps) => transitionTo("account"),
   },
   {
     id: "confirmation",
-    label: <Trans i18nKey="receive.steps.receiveFunds.title" />,
+    label: <Trans i18nKey="claimRewards.steps.confirmation.title" />,
     component: StepConfirmation,
   },
 ];
@@ -145,7 +147,7 @@ const Body = ({
   const errorSteps = verifyAddressError ? [2] : [];
 
   const stepperProps = {
-    title: t("receive.title"),
+    title: t("claimRewards.title"),
     device,
     account,
     parentAccount,
@@ -154,6 +156,7 @@ const Body = ({
     errorSteps,
     disabledSteps,
     receiveTokenMode: !!params.receiveTokenMode,
+    reward: params.reward,
     hideBreadcrumb: stepId === "device",
     token,
     isAddressVerified,

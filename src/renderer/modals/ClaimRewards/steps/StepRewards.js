@@ -90,11 +90,12 @@ export function StepRewardsFooter({
   token,
   account,
   parentAccount,
+  onClose,
 }: StepProps) {
   const error = account ? getReceiveFlowError(account, parentAccount) : null;
   return (
     <Box horizontal>
-      <Button mr={1} secondary onClick={() => transitionTo("device")}>
+      <Button mr={1} secondary onClick={onClose}>
         <Trans i18nKey="common.cancel" />
       </Button>
       <Button

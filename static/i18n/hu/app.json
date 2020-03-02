@@ -39,12 +39,12 @@
     "reverify": "Újra megerősít",
     "verify": "Megerősít",
     "copy": "Másolás",
-    "copyAddress": "Másolás",
     "copied": "Másolva",
     "addressCopied": "Cím másolva",
     "experimentalFeature": "Kísérleti",
     "dismiss": "Elvetés",
     "information": "Információ",
+    "search": "Search...",
     "lockScreen": {
       "title": "Üdv újra",
       "subTitle": null,
@@ -73,7 +73,9 @@
     }
   },
   "byteSize": {
-    "kbUnit": "{{size}}Kb"
+    "bytes": "{{size}} bájt",
+    "kbUnit": "{{size}} Kb",
+    "mbUnit": "{{size}} Mb"
   },
   "time": {
     "minute": "Perc",
@@ -214,7 +216,7 @@
     "modal": {
       "title": "Eredetiség ellenőrzés"
     },
-    "deviceInBootloader": "Az eszköz Bootloader módban. Kattints a Folytatásra a frissítéshez."
+    "deviceInBootloader": "Device in Bootloader mode. Click on <1>Continue</1> to update it."
   },
   "tokensList": {
     "title": "Tokenek",
@@ -250,9 +252,6 @@
       "pendingDevices": "1 számlát nem lehet frissíteni. Kérlek, csatlakoztasd az eszközt, társítva az alábbi fiókhoz",
       "pendingDevices_plural": "{{totalMigratableAccounts}} számlákat nem lehet frissíteni. Kérlek, csatlakoztasd az eszközt, társítva az alábbi fiókhoz",
       "doItLaterBtn": "Későbbre halasztás"
-    },
-    "connectDevice": {
-      "title": "{{currencyName}} frissítése"
     },
     "progress": {
       "finished": {
@@ -362,18 +361,18 @@
     },
     "deviceStorage": {
       "freeSpace": "<0>{{space}}</0> szabad",
-      "noFreeSpace": "nincs elég hely",
-      "installed": "Telepített",
+      "noFreeSpace": "Nincs elég hely",
+      "installed": "Apps",
       "capacity": "Kapacitás",
       "used": "Felhasznált",
       "firmware": "Szoftver {{version}}",
       "genuine": "Az eszköz eredeti",
-      "incomplete": "Egyes alkalmazásokat az alkalmazáskatalógusunk nem ismert fel. Távolítsd el és telepítsd újra őket."
+      "incomplete": "Some apps were not recognized. Please uninstall and reinstall them."
     },
     "applist": {
-      "placeholder": "Nincsenek a keresésnek és szűrőknek megfelelő alkalmazások",
+      "placeholder": "No match for the search and selected filters",
       "placeholderNoAppsInstalled": "Nincsenek telepített alkalmazások az eszközödön",
-      "placeholderGoToCatalog": "Nyisd meg az Alkalmazás katalógust az alkalmazások telepítéséhez",
+      "placeholderGoToCatalog": "Go to the App catalog to install apps",
       "noResultsFound": "Nincs találat",
       "noResultsDesc": "Kérjük, ellenőrizd a helyesírást, és próbáld újra",
       "filter": {
@@ -397,35 +396,41 @@
       },
       "updatable": {
         "title": "Frissítések elérhetők",
-        "progressTitle": "{{number}} alkalmazás frissítések",
-        "progressWarning": "Ne zárd be az eszközkezelőt a frissítés alatt",
+        "progressTitle": "{{number}} Alkalmazás frissítések",
+        "progressWarning": "Do not quit Manager during update.",
         "progress": "Összes frissítése..."
       },
       "item": {
         "version": "Verzió {{version}}",
-        "versionNew": "Verzió {{version}} (ÚJ{{newVersion}})",
         "installing": "Telepítés...",
         "uninstalling": "Törlés...",
-        "scheduled": "Ütemezett",
+        "updating": "Frissítés...",
+        "scheduled": "Sorban áll",
         "update": "Frissítés elérhető",
         "updateAll": "Összes frissítése",
-        "updateAllOutOfMemory": "Nincs elég hely a frissítéshez, kérlek törölj pár alkalmazást",
+        "updateAllOutOfMemory": "Not enough storage to update, please uninstall some apps",
         "install": "Telepítés",
         "installed": "Telepített",
         "uninstall": "Törlés",
-        "notEnoughSpace": "Nincs elég hely",
+        "notEnoughSpace": "Not enough storage",
         "supported": "Ledger Live által támogatott",
         "addAccount": "Számla hozzáadása",
         "addAccountTooltip": "{{appName}} számla hozzáadása",
         "addAccountWarn": "Kérlek várj az alkalmazásfrissítés befejezéséig",
         "learnMore": "Tudj meg többet",
         "learnMoreTooltip": "Tudj meg többet a(z) {{appName}} alkalmazásról",
-        "removeTooltip": "{{appName}} törlése"
+        "removeTooltip": "{{appName}} törlése",
+        "useAppForToken": "{{tokenName}} tokens can be managed using the {{appName}} app",
+        "noAppNeededForToken": "{{appName}} telepítése a(z) {{tokenName}} tokenhez",
+        "tokenAppDisclaimer": "{{tokenName}} egy {{tokenType}} token, mely a(z) {{appName}} alkalmazást használja. {{tokenName}} kezeléséhez, <1>telepítsd a(z) {{appName}} alkalmazást </1> és küld a tokeneket a(z) <3> {{appName}} számládra </3>",
+        "tokenAppDisclaimerInstalled": "{{tokenName}} egy {{tokenType}} token, mely a(z) {{appName}} alkalmazást használja. A(z) {{tokenName}} kezeléséhez, <1>nyisd meg a(z) {{appName}} alkalmazást </1> és küld a tokeneket a(z) <3> {{appName}} számládra </3>",
+        "goToAccounts": "Irány a számlákhoz",
+        "intallParentApp": "{{appName}} alkalmazás telepítése"
       },
       "uninstall": {
         "title": "Összes törlése",
         "subtitle": "Minden alkalmazás törlése?",
-        "description": "Ne aggódj, az alkalmazások törlése nem érinti a bennük tárolt kriptóidat. Újratelepítheted őket az Alkalmazás katalógusban"
+        "description": "Don’t worry, uninstalling apps does not affect your crypto assets. You can reinstall apps in the App catalog."
       }
     },
     "apps": {
@@ -437,7 +442,7 @@
       "dependencyUninstall": {
         "title": " {{app}} és vele összefüggő alkalmazások törlése?",
         "showAll": "Eltávolítandó alkalmazások megjelenítése",
-        "description": "Pár telepített alkalmazásod csatolva van a(z) {{app}} alkalmazáshoz. Ezek is el lesznek távolítva.",
+        "description": "Pár telepített alkalmazásod társítva van a(z) {{app}} alkalmazáshoz. Ezek is el lesznek távolítva.",
         "confirm": "{{app}} és egyéb alkalmazások törlése"
       }
     },
@@ -510,12 +515,6 @@
         "title": "Eszköz",
         "withoutDevice": "Nincs nálad az eszközöd?"
       },
-      "confirmAddress": {
-        "title": "Jóváhagyás",
-        "action": "Hagyd jóvá a címet az eszközödön",
-        "text": "Kérlek, hagyd jóvá a Ledger Live-ban található {{currencyName}} címet ha egyezik az eszközödön látható címmel",
-        "support": "Lépj velünk kapcsolatba"
-      },
       "receiveFunds": {
         "title": "Fogadás"
       },
@@ -557,7 +556,6 @@
         "unitPerByte": "{{unit}} byte-onként"
       },
       "verification": {
-        "title": "Jóváhagyás",
         "streaming": {
           "accurate": "Betöltés... ({{percentage}})",
           "inaccurate": "Betöltés..."
@@ -621,13 +619,12 @@
     "durationDays_plural": "{{count}} napok",
     "howItWorks": "Hogyan működik a delegálás",
     "delegationEarn": "Mostantól részesülhetsz Tezos tárolási jutalmakban a számlád delegálásával.",
-    "earnRewards": "Kapj jutalmakat",
     "overdelegated": "Túlhalmozott",
     "flow": {
       "steps": {
         "starter": {
           "title": "Kapj tárolási jutalmakat",
-          "description": "Kapj tárolási jutalmakat Tezos számlád harmadik személy általi megerősítésre történő delegálásával, miközben teljes biztonságban és irányítás alatt tartod a kriptód",
+          "description": "Delegate your Tezos account to a third-party validator to earn staking rewards while keeping full security and control of your assets",
           "bullet": {
             "delegate": "Delegált számláid a tieid maradnak.",
             "access": "Bármikor hozzáférhetsz a kriptóidhoz.",
@@ -1202,7 +1199,7 @@
       "description": "Kérlek, használd az eszközkezelőt minden alkalmazás törléséhez és ellenőrizd, hogy elérhető-e szoftverfrissítés mielőtt újratelepítenéd őket"
     },
     "FirmwareNotRecognized": {
-      "title": "A Szoftver nem lett felismerve",
+      "title": "Device firmware is not recognized",
       "description": "Kérlek, lépj kapcsolatba a Ledger ügyféltámogatással"
     },
     "HardResetFail": {

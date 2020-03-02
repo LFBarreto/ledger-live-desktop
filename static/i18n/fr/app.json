@@ -39,12 +39,12 @@
     "reverify": "Revérifier",
     "verify": "Vérifier",
     "copy": "Copier",
-    "copyAddress": "Copier",
     "copied": "Copié",
     "addressCopied": "Adresse copiée",
     "experimentalFeature": "Expérimental",
     "dismiss": "Ignorer",
     "information": "Informations",
+    "search": "Rechercher ...",
     "lockScreen": {
       "title": "Bienvenue",
       "subTitle": null,
@@ -73,7 +73,9 @@
     }
   },
   "byteSize": {
-    "kbUnit": "{{size}}Ko"
+    "bytes": "{{size}} octets",
+    "kbUnit": "{{size}} Ko",
+    "mbUnit": "{{size}} Mo"
   },
   "time": {
     "minute": "Minute",
@@ -172,7 +174,7 @@
   "currentAddress": {
     "title": "Adresse actuelle",
     "for": "Adresse pour <1><0>{{name}}</0></1>",
-    "messageIfUnverified": "Veuillez vérifier que l’adresse {{currencyName}} affichée sur Ledger Live correspond à celle indiquée sur votre appareil",
+    "messageIfUnverified": "Veuillez vérifier que l’adresse partagée correspond à celle indiquée sur votre appareil",
     "messageIfSkipped": "Votre adresse {{name}} n’a pas été confirmée sur votre appareil Ledger. Veuillez la vérifier pour une sécurité optimale."
   },
   "emptyState": {
@@ -214,7 +216,7 @@
     "modal": {
       "title": "Vérification d'authenticité"
     },
-    "deviceInBootloader": "Votre appareil est en mode Bootloader. Cliquez sur {{button}} pour le mettre à jour."
+    "deviceInBootloader": "Appareil en mode Bootloader. Cliquez sur <1>Continuer</1> pour le mettre à jour."
   },
   "tokensList": {
     "title": "Tokens",
@@ -250,9 +252,6 @@
       "pendingDevices": "1 compte n'a pas pu être mis à jour. Veuillez connecter l'appareil associé au compte ci-dessous",
       "pendingDevices_plural": "{{totalMigratableAccounts}} comptes n'ont pas pu être mis à jour. Veuillez connecter l'appareil associé au compte ci-dessous",
       "doItLaterBtn": "Plus tard"
-    },
-    "connectDevice": {
-      "title": "Mise à jour de {{currencyName}}"
     },
     "progress": {
       "finished": {
@@ -363,17 +362,17 @@
     "deviceStorage": {
       "freeSpace": "<0>{{space}}</0> libre",
       "noFreeSpace": "Plus d'espace disponible",
-      "installed": "Installée",
+      "installed": "Apps",
       "capacity": "Capacité",
       "used": "Utilisé",
       "firmware": "Firmware {{version}}",
       "genuine": "L'appareil est authentique",
-      "incomplete": "Certaines applications ne sont pas reconnues par notre catalogue d'applications. Veuillez les désinstaller et les réinstaller."
+      "incomplete": "Certaines applications n'ont pas été reconnues. Veuillez les désinstaller et les réinstaller."
     },
     "applist": {
-      "placeholder": "Aucune application ne correspond à la recherche et aux filtres sélectionnés",
+      "placeholder": "Aucun résultat pour la recherche et les filtres sélectionnés",
       "placeholderNoAppsInstalled": "Aucune application installée sur votre appareil",
-      "placeholderGoToCatalog": "Allez dans le catalogue pour installer des applications",
+      "placeholderGoToCatalog": "Allez dans le catalogue d'applications pour installer des applications",
       "noResultsFound": "Aucun résultat",
       "noResultsDesc": "Veuillez vérifier vos recherche et réessayer",
       "filter": {
@@ -398,15 +397,15 @@
       "updatable": {
         "title": "Mises à jours disponibles",
         "progressTitle": "{{number}} mises à jours d'applications",
-        "progressWarning": "Ne pas quitter le gestionnaire pendant la mise à jour",
+        "progressWarning": "Ne pas quitter le Manager pendant la mise à jour.",
         "progress": "Mise à jour..."
       },
       "item": {
         "version": "Version {{version}}",
-        "versionNew": "Version {{version}} (NOUVEAU{{newVersion}})",
         "installing": "Installation en cours...",
         "uninstalling": "Désinstallation...",
-        "scheduled": "Planifié",
+        "updating": "Mise à jour...",
+        "scheduled": "En attente",
         "update": "Mise à jour disponible",
         "updateAll": "Tout mettre à jour",
         "updateAllOutOfMemory": "Pas assez d'espace pour mettre à jour, veuillez désinstaller des applications",
@@ -414,18 +413,24 @@
         "installed": "Installée",
         "uninstall": "Désinstaller",
         "notEnoughSpace": "Espace insuffisant",
-        "supported": "Supporté dans Ledger Live",
+        "supported": "Compatible Ledger Live",
         "addAccount": "Ajouter un compte",
         "addAccountTooltip": "Ajouter un compte {{appName}}",
         "addAccountWarn": "Veuillez attendre que les mises à jour soient terminées",
         "learnMore": "En savoir plus",
         "learnMoreTooltip": "En savoir plus sur {{appName}}",
-        "removeTooltip": "Désinstaller {{appName}}"
+        "removeTooltip": "Désinstaller {{appName}}",
+        "useAppForToken": "{{tokenName}} tokens peuvent être gérés en utilisant l'application {{appName}}",
+        "noAppNeededForToken": "Installer l'application {{appName}} pour {{tokenName}}",
+        "tokenAppDisclaimer": "{{tokenName}} est un token {{tokenType}} utilisant l'application {{appName}}. Pour gérer {{tokenName}}, <1>installer l'application </1> {{appName}} et envoyer les tokens <3> sur votre compte {{appName}} </3>",
+        "tokenAppDisclaimerInstalled": "{{tokenName}} est un token {{tokenType}} utilisant l'application {{appName}} . Pour gérer {{tokenName}}, <1>ouvrez l'application {{appName}} </1> et envoyez les tokens <3>sur votre compte {{appName}} </3>",
+        "goToAccounts": "Accéder aux comptes",
+        "intallParentApp": "Installer l'application {{appName}}"
       },
       "uninstall": {
         "title": "Tout désinstaller",
         "subtitle": "Désinstaller toutes les applications ?",
-        "description": "Pas d'inquiétude, la désinstallation des applications n'affecte pas vos crypto actifs. Vous pouvez réinstaller des applications depuis le catalogue d'applications"
+        "description": "Pas d'inquiétude, la désinstallation des applications n'affecte pas vos crypto actifs. Vous pouvez réinstaller des applications depuis le catalogue d'applications."
       }
     },
     "apps": {
@@ -510,12 +515,6 @@
         "title": "Appareil",
         "withoutDevice": "Vous n’avez pas votre appareil ?"
       },
-      "confirmAddress": {
-        "title": "Vérification",
-        "action": "Confirmez votre adresse sur l’appareil",
-        "text": "Veuillez vérifier que l’adresse {{currencyName}} qui sera affichée sur Ledger Live va correspondre à celle indiquée sur votre appareil",
-        "support": "Nous contacter"
-      },
       "receiveFunds": {
         "title": "Recevoir"
       },
@@ -557,7 +556,6 @@
         "unitPerByte": "{{unit}} par octet"
       },
       "verification": {
-        "title": "Vérification",
         "streaming": {
           "accurate": "Chargement... ({{percentage}})",
           "inaccurate": "Chargement en cours..."
@@ -621,7 +619,6 @@
     "durationDays_plural": "{{count}} jours",
     "howItWorks": "Comment fonctionne la délégation",
     "delegationEarn": "Vous pouvez maintenant obtenir des récompenses staking Tezos en déléguant votre compte.",
-    "earnRewards": "Obtenez des récompenses",
     "overdelegated": "Surdélégué",
     "flow": {
       "steps": {
@@ -1202,7 +1199,7 @@
       "description": "Veuillez utiliser le Manager pour désinstaller toutes les applications et vérifier si une mise à jour du firmware est disponible avant de les réinstaller"
     },
     "FirmwareNotRecognized": {
-      "title": "Firmware non reconnu",
+      "title": "Le firmware de l'appareil n'est pas reconnu",
       "description": "Veuillez contacter l’assistance Ledger"
     },
     "HardResetFail": {

@@ -139,7 +139,7 @@ class Modal extends PureComponent<Props, State> {
     document.addEventListener("keydown", this.preventFocusEscape);
   }
 
-  componentDidUpdate({ isOpened, onHide }) {
+  componentDidUpdate({ isOpened, onHide }: Props) {
     if (!isOpened && onHide) onHide();
   }
 

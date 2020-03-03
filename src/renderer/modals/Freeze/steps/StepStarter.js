@@ -34,7 +34,7 @@ const Row = styled(Box).attrs(p => ({
   }
 `;
 
-const StepStarter = ({ transitionTo, openedWithAccount }: StepProps) => {
+const StepStarter = ({ transitionTo }: StepProps) => {
   return (
     <Box flow={4} mx={4}>
       <TrackPage category="Delegation Flow" name="Step Starter" />
@@ -100,7 +100,7 @@ const StepStarter = ({ transitionTo, openedWithAccount }: StepProps) => {
 };
 
 export const StepStarterFooter = ({ transitionTo }: StepProps) => {
-  const onNext = useCallback(() => transitionTo("validator"), [transitionTo]);
+  const onNext = useCallback(() => transitionTo("amount"), [transitionTo]);
 
   return (
     <>

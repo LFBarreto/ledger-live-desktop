@@ -525,6 +525,20 @@
       }
     }
   },
+  "freeze": {
+    "title": "Freeze",
+    "steps": {
+      "amount": {
+        "title": "Freeze assets"
+      },
+      "connectDevice": {
+        "title": "Device"
+      },
+      "confirmation": {
+        "title": "Confirmation"
+      }
+    }
+  },
   "receive": {
     "title": "Receive",
     "successTitle": "Address shared securely",
@@ -658,6 +672,18 @@
             }
           }
         }
+      }
+    },
+    "manage": {
+      "title": "Manage Tron Power",
+      "freeze": {
+        "title": "Freeze"
+      },
+      "unfreeze": {
+        "title": "Unfreeze"
+      },
+      "vote": {
+        "title": "Vote"
       }
     }
   },

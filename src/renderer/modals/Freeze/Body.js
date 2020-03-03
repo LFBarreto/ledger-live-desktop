@@ -15,6 +15,7 @@ import { accountsSelector } from "~/renderer/reducers/accounts";
 import { closeModal } from "~/renderer/actions/modals";
 
 import Stepper from "~/renderer/components/Stepper";
+import StepStarter, { StepStarterFooter } from "./steps/StepStarter";
 import StepAmount, { StepAmountFooter } from "./steps/StepAmount";
 import StepConnectDevice, { StepConnectDeviceFooter } from "./steps/StepConnectDevice";
 import StepConfirmation from "./steps/StepConfirmation";
@@ -50,6 +51,13 @@ type Props = {|
 
 const createSteps = (): Array<St> => [
   {
+    id: "starter",
+    label: null,
+    component: StepStarter,
+    noScroll: true,
+    footer: StepStarterFooter,
+  },
+  {
     id: "amount",
     label: <Trans i18nKey="freeze.steps.amount.title" />,
     component: StepAmount,
@@ -57,7 +65,7 @@ const createSteps = (): Array<St> => [
     footer: StepAmountFooter,
   },
   {
-    id: "device",
+    id: "connectDevice",
     label: <Trans i18nKey="freeze.steps.connectDevice.title" />,
     component: StepConnectDevice,
     footer: StepConnectDeviceFooter,
@@ -157,7 +165,7 @@ const Body = ({
     errorSteps,
     disabledSteps,
     receiveTokenMode: !!params.receiveTokenMode,
-    hideBreadcrumb: false,
+    hideBreadcrumb: stepId === "starter",
     token,
     isAddressVerified,
     verifyAddressError,

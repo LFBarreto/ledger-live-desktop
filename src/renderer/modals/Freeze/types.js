@@ -5,7 +5,7 @@ import type { Device } from "~/renderer/reducers/devices";
 import type { Step } from "~/renderer/components/Stepper";
 import type { BigNumber } from "bignumber.js";
 
-export type StepId = "amount" | "device" | "confirmation";
+export type StepId = "starter" | "amount" | "connectDevice" | "confirmation";
 
 export type StepProps = {
   t: TFunction,

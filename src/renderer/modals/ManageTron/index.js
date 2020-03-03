@@ -2,6 +2,9 @@
 
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
+import styled from "styled-components";
+
+import { Trans } from "react-i18next";
 
 import type { Account, AccountLike } from "@ledgerhq/live-common/lib/types";
 
@@ -9,6 +12,14 @@ import { openModal } from "~/renderer/actions/modals";
 import Box from "~/renderer/components/Box";
 import Modal, { ModalBody } from "~/renderer/components/Modal";
 import Button from "~/renderer/components/Button";
+
+const ManageButton = styled(Button)`
+  padding: 16px;
+  margin: 5px 0;
+  box-sizing: content-box;
+  border-radius: 4px;
+  border: 2px solid ${p => p.theme.colors.palette.divider};
+`;
 
 type Props = {
   name?: string,
@@ -56,39 +67,35 @@ const ManageModal = ({ name, title, actions = [], account, parentAccount, ...res
     [dispatch, account, parentAccount],
   );
 
-  console.log(rest);
-
   return (
     <Modal
+      {...rest}
       name={name}
       centered
       render={({ onClose, data }) => (
         <ModalBody
           onClose={onClose}
           onBack={undefined}
-          title={title}
+          title={<Trans i18nKey="tron.manage.title" />}
           noScroll
           render={() => (
             <>
               <Box>
-                <Box>
-                  <Button onClick={() => onSelectAction("MODAL_FREEZE", onClose)}>Freeze</Button>
-                </Box>
-                <Box>
-                  <Button onClick={() => onSelectAction("MODAL_UNFREEZE", onClose)}>
-                    Unfreeze
-                  </Button>
-                </Box>
-                <Box>
-                  <Button onClick={() => onSelectAction("MODAL_DELEGATE", onClose)}>Vote</Button>
-                </Box>
+                <ManageButton onClick={() => onSelectAction("MODAL_FREEZE", onClose)}>
+                  <Trans i18nKey="tron.manage.freeze.title" />
+                </ManageButton>
+                <ManageButton onClick={() => onSelectAction("MODAL_UNFREEZE", onClose)}>
+                  <Trans i18nKey="tron.manage.unfreeze.title" />
+                </ManageButton>
+                <ManageButton onClick={() => onSelectAction("MODAL_DELEGATE", onClose)}>
+                  <Trans i18nKey="tron.manage.vote.title" />
+                </ManageButton>
               </Box>
             </>
           )}
           renderFooter={undefined}
         />
       )}
-      {...rest}
     />
   );
 };

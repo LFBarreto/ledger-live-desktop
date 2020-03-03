@@ -5,14 +5,14 @@ import Modal from "~/renderer/components/Modal";
 import Body from "./Body";
 import type { StepId } from "./types";
 
-class ClaimRewardsModal extends PureComponent<{ name: string }, { stepId: StepId }> {
+class FreezeModal extends PureComponent<{ name: string }, { stepId: StepId }> {
   state = {
-    stepId: "rewards",
+    stepId: "amount",
   };
 
   handleReset = () =>
     this.setState({
-      stepId: "rewards",
+      stepId: "amount",
     });
 
   handleStepChange = (stepId: StepId) => this.setState({ stepId });
@@ -21,8 +21,6 @@ class ClaimRewardsModal extends PureComponent<{ name: string }, { stepId: StepId
     const { stepId } = this.state;
 
     const isModalLocked = !["device", "confirmation"].includes(stepId);
-
-    console.log(this.props.name);
 
     return (
       <Modal
@@ -37,6 +35,7 @@ class ClaimRewardsModal extends PureComponent<{ name: string }, { stepId: StepId
             onClose={onClose}
             onChangeStepId={this.handleStepChange}
             params={data || {}}
+            name={this.props.name}
           />
         )}
       />
@@ -44,4 +43,4 @@ class ClaimRewardsModal extends PureComponent<{ name: string }, { stepId: StepId
   }
 }
 
-export default ClaimRewardsModal;
+export default FreezeModal;

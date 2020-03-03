@@ -4,15 +4,21 @@ import React, { PureComponent } from "react";
 
 import { getMainAccount } from "@ledgerhq/live-common/lib/account";
 
+import type { Account, AccountLike } from "@ledgerhq/live-common/lib/types";
+
+import type { StepId } from "./types";
+
 import Modal from "~/renderer/components/Modal";
 import perFamily from "~/renderer/generated/DelegationModal";
-import type { StepId } from "./types";
 
 type State = {
   stepId: StepId,
 };
 
-class DelegationModal extends PureComponent<{}, State> {
+class DelegationModal extends PureComponent<
+  { name: string, account: AccountLike, parentAccount: ?Account },
+  State,
+> {
   state = {
     stepId: "starter",
   };
@@ -24,11 +30,9 @@ class DelegationModal extends PureComponent<{}, State> {
   };
 
   render() {
-    const { account, parentAccount } = this.props;
+    const { account, parentAccount, name } = this.props;
     const mainAccount = getMainAccount(account, parentAccount);
     const PerFamily = perFamily[mainAccount.currency.family];
-
-    console.log(mainAccount, perFamily);
 
     const { stepId } = this.state;
     const isModalLocked = !["account", "confirmation"].includes(stepId);
@@ -36,7 +40,7 @@ class DelegationModal extends PureComponent<{}, State> {
     return (
       PerFamily && (
         <Modal
-          name="MODAL_DELEGATE"
+          name={name}
           centered
           refocusWhenChange={stepId}
           onHide={this.handleReset}

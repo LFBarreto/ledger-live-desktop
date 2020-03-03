@@ -60,6 +60,8 @@ const formatConfig = {
 };
 
 const AccountBalanceSummaryFooter = ({ account, countervalue }: Props) => {
+  if (!account.tronResources) return null;
+
   const {
     frozen: {
       bandwidth: { amount: bandwidthAmount } = {},

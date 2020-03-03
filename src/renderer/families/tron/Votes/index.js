@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { Trans } from "react-i18next";
 import styled from "styled-components";
@@ -17,6 +17,7 @@ import LinkWithExternalIcon from "~/renderer/components/LinkWithExternalIcon";
 import IconChartLine from "~/renderer/icons/ChartLine";
 import Header from "./Header";
 import Row from "./Row";
+import Footer from "./Footer";
 
 import { formatCurrencyUnit } from "@ledgerhq/live-common/lib/currencies";
 import { BigNumber } from "bignumber.js";
@@ -78,6 +79,25 @@ const Delegation = ({ account, parentAccount }: Props) => {
     },
   );
 
+  const formattedVotes = votes.map(({ address, ...rest }) => ({
+    validator: superRepresentatives.find(sp => sp.address === address),
+    address,
+    ...rest,
+  }));
+
+  const totalVotesUsed = votes.reduce((sum, { voteCount }) => sum + voteCount, 0);
+
+  const onDelegate = useCallback(
+    () =>
+      dispatch(
+        openModal("MODAL_DELEGATE", {
+          parentAccount,
+          account,
+        }),
+      ),
+    [account, parentAccount, dispatch],
+  );
+
   const hasRewards = unwithdrawnReward > 0;
 
   return account.type === "ChildAccount" && !tronPower ? null : (
@@ -122,26 +142,21 @@ const Delegation = ({ account, parentAccount }: Props) => {
           </ToolTip>
         )}
       </Box>
-      {tronPower > 0 && votes.length > 0 ? (
+      {tronPower > 0 && formattedVotes.length > 0 ? (
         <Card p={0} mt={24} mb={6}>
           <Header />
-          {votes
-            .map(({ address, ...rest }) => ({
-              validator: superRepresentatives.find(sp => sp.address === address),
-              address,
-              ...rest,
-            }))
-            .map(({ validator, address, voteCount }, index) => (
-              <Row
-                key={index}
-                validator={validator}
-                address={address}
-                amount={voteCount}
-                duration={nextVotingDate.toString()}
-                percentTP={Number((voteCount * 1e2) / tronPower).toFixed(2)}
-                currency={account.currency}
-              />
-            ))}
+          {formattedVotes.map(({ validator, address, voteCount }, index) => (
+            <Row
+              key={index}
+              validator={validator}
+              address={address}
+              amount={voteCount}
+              duration={nextVotingDate.toString()}
+              percentTP={Number((voteCount * 1e2) / tronPower).toFixed(2)}
+              currency={account.currency}
+            />
+          ))}
+          <Footer total={tronPower} used={totalVotesUsed} onClick={onDelegate} />
         </Card>
       ) : (
         <Wrapper horizontal>
@@ -157,18 +172,7 @@ const Delegation = ({ account, parentAccount }: Props) => {
             </Box>
           </Box>
           <Box>
-            <Button
-              primary
-              onClick={() => {
-                // @TODO open voting flow modal
-                dispatch(
-                  openModal("MODAL_DELEGATE", {
-                    parentAccount,
-                    account,
-                  }),
-                );
-              }}
-            >
+            <Button primary onClick={onDelegate}>
               <Box horizontal flow={1} alignItems="center">
                 <IconChartLine size={12} />
                 <Box>
@@ -183,4 +187,10 @@ const Delegation = ({ account, parentAccount }: Props) => {
   );
 };
 
-export default Delegation;
+const Votes = ({ account, parentAccount }: Props) => {
+  if (!account.tronResources) return null;
+
+  return <Delegation account={account} parentAccount={parentAccount} />;
+};
+
+export default Votes;

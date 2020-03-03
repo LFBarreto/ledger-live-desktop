@@ -29,6 +29,12 @@ const AccountHeaderActions = ({ account, parentAccount }: Props) => {
 
   const onClick = useCallback(() => {
     if (tronPower > 0) {
+      dispatch(
+        openModal("MODAL_MANAGE_TRON", {
+          parentAccount,
+          account,
+        }),
+      );
     } else {
       dispatch(
         openModal("MODAL_DELEGATE", {

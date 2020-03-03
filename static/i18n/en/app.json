@@ -638,6 +638,11 @@
       "Amount": "Amount",
       "percentageTP": "% of used TP",
       "noRewards": "No rewards available",
+      "remainingVotes": {
+        "title": "You still have {{amount}}TP remaining",
+        "description": "You didn't use all of your frozen assets to vote for a SR.",
+        "button": "Vote now"
+      },
       "flow": {
         "steps": {
           "starter": {

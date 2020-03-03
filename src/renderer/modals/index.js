@@ -3,7 +3,9 @@
 import MODAL_DELEGATE from "./Delegation";
 import MODAL_EXPORT_OPERATIONS from "./ExportOperations";
 import MODAL_CONFIRM from "./ConfirmModal";
+import MODAL_MANAGE_TRON from "./ManageTron";
 import MODAL_CLAIM_REWARDS from "./ClaimRewards";
+import MODAL_FREEZE from "./Freeze";
 import MODAL_PASSWORD from "./PasswordModal";
 import MODAL_DISABLE_PASSWORD from "./DisablePasswordModal";
 import MODAL_ADD_ACCOUNTS from "./AddAccounts";
@@ -22,7 +24,9 @@ import MODAL_RELEASE_NOTES from "./ReleaseNotes";
 const modals: { [_: string]: React$ComponentType<any> } = {
   MODAL_EXPORT_OPERATIONS,
   MODAL_CONFIRM,
+  MODAL_MANAGE_TRON,
   MODAL_CLAIM_REWARDS,
+  MODAL_FREEZE,
   MODAL_PASSWORD,
   MODAL_DISABLE_PASSWORD,
   MODAL_ADD_ACCOUNTS,

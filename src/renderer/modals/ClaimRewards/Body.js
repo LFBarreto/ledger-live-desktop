@@ -7,6 +7,10 @@ import { createStructuredSelector } from "reselect";
 import SyncSkipUnderPriority from "~/renderer/components/SyncSkipUnderPriority";
 import Track from "~/renderer/analytics/Track";
 
+import type { Account, AccountLike } from "@ledgerhq/live-common/lib/types";
+import type { StepId, StepProps } from "./types";
+import type { BigNumber } from "bignumber.js";
+
 import { getCurrentDevice } from "~/renderer/reducers/devices";
 import { accountsSelector } from "~/renderer/reducers/accounts";
 import { closeModal } from "~/renderer/actions/modals";
@@ -16,16 +20,13 @@ import StepRewards, { StepRewardsFooter } from "./steps/StepRewards";
 import StepConnectDevice, { StepConnectDeviceFooter } from "./steps/StepConnectDevice";
 import StepConfirmation from "./steps/StepConfirmation";
 
-import type { StepId, StepProps } from "./types";
-import type { BigNumber } from "bignumber.js";
-
 type OwnProps = {|
   stepId: StepId,
   onClose: () => void,
   onChangeStepId: StepId => void,
-  isAddressVerified: ?boolean,
-  verifyAddressError: ?Error,
-  onChangeAddressVerified: (isAddressVerified: ?boolean, err: ?Error) => void,
+  isAddressVerified?: boolean,
+  verifyAddressError?: Error,
+  onChangeAddressVerified?: (isAddressVerified: ?boolean, err: ?Error) => void,
   params: {
     account: ?AccountLike,
     parentAccount: ?Account,

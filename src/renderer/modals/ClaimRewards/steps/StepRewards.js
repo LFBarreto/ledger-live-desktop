@@ -41,8 +41,9 @@ export default function StepAccount({
   onChangeToken,
   reward,
 }: StepProps) {
-  const mainAccount = account ? getMainAccount(account, parentAccount) : null;
-  const error = account ? getReceiveFlowError(account, parentAccount) : null;
+  if (!account) return null;
+  const mainAccount = getMainAccount(account, parentAccount);
+  const error = getReceiveFlowError(account, parentAccount);
 
   const formattedReward = formatCurrencyUnit(mainAccount.unit, BigNumber(reward || 0), {
     disableRounding: true,

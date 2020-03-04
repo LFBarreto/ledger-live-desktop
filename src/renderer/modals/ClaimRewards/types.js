@@ -26,6 +26,10 @@ export type StepProps = {
   onChangeAccount: (account: ?AccountLike, tokenAccount: ?Account) => void,
   onChangeAddressVerified: (?boolean, ?Error) => void,
   onClose: () => void,
+  optimisticOperation: *,
+  error: *,
+  openModal: (name: string, *) => void,
+  signed: boolean,
 };
 
 export type St = Step<StepId, StepProps>;

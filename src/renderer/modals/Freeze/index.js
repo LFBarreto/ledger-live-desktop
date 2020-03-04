@@ -7,7 +7,7 @@ import type { StepId } from "./types";
 
 class FreezeModal extends PureComponent<{ name: string }, { stepId: StepId }> {
   state = {
-    stepId: "starter",
+    stepId: "amount",
   };
 
   handleReset = () =>

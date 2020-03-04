@@ -51,21 +51,21 @@ type Props = {|
 const createSteps = (): Array<St> => [
   {
     id: "amount",
-    label: <Trans i18nKey="freeze.steps.amount.title" />,
+    label: <Trans i18nKey="unfreeze.steps.amount.title" />,
     component: StepAmount,
     noScroll: true,
     footer: StepAmountFooter,
   },
   {
     id: "connectDevice",
-    label: <Trans i18nKey="freeze.steps.connectDevice.title" />,
+    label: <Trans i18nKey="unfreeze.steps.connectDevice.title" />,
     component: StepConnectDevice,
     footer: StepConnectDeviceFooter,
     onBack: ({ transitionTo }: StepProps) => transitionTo("account"),
   },
   {
     id: "confirmation",
-    label: <Trans i18nKey="freeze.steps.confirmation.title" />,
+    label: <Trans i18nKey="unfreeze.steps.confirmation.title" />,
     component: StepConfirmation,
   },
 ];
@@ -148,7 +148,7 @@ const Body = ({
   const errorSteps = verifyAddressError ? [2] : [];
 
   const stepperProps = {
-    title: t("freeze.title"),
+    title: t("unfreeze.title"),
     device,
     account,
     parentAccount,
@@ -175,7 +175,7 @@ const Body = ({
   return (
     <Stepper {...stepperProps}>
       <SyncSkipUnderPriority priority={100} />
-      <Track onUnmount event="CloseModalFreeze" />
+      <Track onUnmount event="CloseModalUnFreeze" />
     </Stepper>
   );
 };

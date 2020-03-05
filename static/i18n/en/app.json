@@ -692,15 +692,15 @@
       "title": "Manage Tron Power",
       "freeze": {
         "title": "Freeze",
-        "description": "---INFO TO BE FILLED---"
+        "description": "Freeze TRX to earn Bandwidth or Energy. You'll also earn TRON Power to vote for Super Representatives."
       },
       "unfreeze": {
         "title": "Unfreeze",
-        "description": "---INFO TO BE FILLED---"
+        "description": "Unfreeze TRX if you want to spend them. You will stop earning rewards and TRON Power to vote with."
       },
       "vote": {
         "title": "Vote",
-        "description": "---INFO TO BE FILLED---"
+        "description": "Cast votes for Super Representatives using your TRON Power to earn TRX rewards."
       }
     }
   },

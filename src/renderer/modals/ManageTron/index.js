@@ -17,6 +17,8 @@ import Freeze from "~/renderer/icons/Freeze";
 import Vote from "~/renderer/icons/Vote";
 import Unfreeze from "~/renderer/icons/Unfreeze";
 import Text from "~/renderer/components/Text";
+import moment from "moment";
+import Clock from "~/renderer/icons/Clock";
 
 const IconWrapper = styled.div`
   width: 32px;
@@ -27,6 +29,7 @@ const IconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: ${p => p.theme.space[2]}px;
 `;
 
 const ManageButton = styled.button`
@@ -39,7 +42,7 @@ const ManageButton = styled.button`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   ${p =>
     p.disabled
       ? css`
@@ -82,6 +85,23 @@ const Description = styled(Text).attrs(() => ({
   color: "palette.text.shade60",
 }))``;
 
+const TimerWrapper = styled(Box).attrs(() => ({
+  horizontal: true,
+  alignItems: "center",
+  ff: "Inter|Medium",
+  fontSize: 3,
+  color: "palette.text.shade50",
+  bg: "palette.action.active",
+  borderRadius: 4,
+  p: 1,
+  ml: 4,
+  mt: 2,
+}))`
+  ${Description} {
+    margin-left: 5px;
+  }
+`;
+
 type Props = {
   name?: string,
   account: AccountLike,
@@ -93,15 +113,26 @@ const ManageModal = ({ name, account, parentAccount, ...rest }: Props) => {
   const dispatch = useDispatch();
   const mainAccount = getMainAccount(account, parentAccount);
 
-  const { spendableBalance, tronResources: { tronPower, frozen = {} } = {} } = mainAccount;
+  const {
+    spendableBalance,
+    tronResources: { tronPower, frozen: { bandwidth, energy } = {}, frozen } = {},
+  } = mainAccount;
 
   const canFreeze = spendableBalance && spendableBalance.gt(0);
 
   const canUnfreeze =
     frozen &&
-    BigNumber(frozen.bandwidth || 0)
-      .plus(frozen.energy || 0)
+    BigNumber((bandwidth && bandwidth.amount) || 0)
+      .plus((energy && energy.amount) || 0)
       .gt(0);
+
+  const timeToUnfreezeBandwidth =
+    bandwidth && bandwidth.expiredAt ? +bandwidth.expiredAt : Infinity;
+  const timeToUnfreezeEnergy = energy && energy.expiredAt ? +energy.expiredAt : Infinity;
+
+  const effectiveTimeToUnfreeze = moment(
+    Math.min(timeToUnfreezeBandwidth, timeToUnfreezeEnergy),
+  ).fromNow();
 
   const canVote = tronPower > 0;
 
@@ -163,6 +194,12 @@ const ManageModal = ({ name, account, parentAccount, ...rest }: Props) => {
                       <Trans i18nKey="tron.manage.unfreeze.description" />
                     </Description>
                   </InfoWrapper>
+                  {!canUnfreeze && (
+                    <TimerWrapper>
+                      <Clock size={12} />
+                      <Description>{effectiveTimeToUnfreeze}</Description>
+                    </TimerWrapper>
+                  )}
                 </ManageButton>
                 <ManageButton
                   disabled={!canVote}

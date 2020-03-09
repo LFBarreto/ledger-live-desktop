@@ -203,7 +203,7 @@ const ManageModal = ({ name, account, parentAccount, ...rest }: Props) => {
                 </ManageButton>
                 <ManageButton
                   disabled={!canVote}
-                  onClick={() => onSelectAction("MODAL_DELEGATE", onClose)}
+                  onClick={() => onSelectAction("MODAL_DELEGATE_TRON", onClose)}
                 >
                   <IconWrapper>
                     <Vote size={16} />

@@ -5,7 +5,7 @@ import type { Device } from "~/renderer/reducers/devices";
 import type { Step } from "~/renderer/components/Stepper";
 import type { BigNumber } from "bignumber.js";
 
-export type StepId = "rewards" | "device" | "confirmation";
+export type StepId = "rewards" | "connectDevice" | "confirmation";
 
 export type StepProps = {
   t: TFunction,
@@ -17,14 +17,9 @@ export type StepProps = {
   token: ?TokenCurrency,
   receiveTokenMode: boolean,
   closeModal: void => void,
-  isAddressVerified: ?boolean,
-  verifyAddressError: ?Error,
   onRetry: void => void,
   onSkipConfirm: void => void,
   onResetSkip: void => void,
-  onChangeToken: (token: ?TokenCurrency) => void,
-  onChangeAccount: (account: ?AccountLike, tokenAccount: ?Account) => void,
-  onChangeAddressVerified: (?boolean, ?Error) => void,
   onClose: () => void,
   optimisticOperation: *,
   error: *,

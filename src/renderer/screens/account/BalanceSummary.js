@@ -32,7 +32,7 @@ type OwnProps = {
   range: PortfolioRange,
   countervalueFirst: boolean,
   setCountervalueFirst: boolean => void,
-  mainAccount: any,
+  mainAccount: ?Account,
 };
 
 type Props = {

@@ -3,32 +3,21 @@
 import React, { PureComponent } from "react";
 import Modal from "~/renderer/components/Modal";
 import Body from "./Body";
-import logger from "~/logger";
 import type { StepId } from "./types";
 type State = {
   stepId: StepId,
-  isAddressVerified: ?boolean,
-  verifyAddressError: ?Error,
 };
 
 const INITIAL_STATE = {
   stepId: "rewards",
-  isAddressVerified: null,
-  verifyAddressError: null,
 };
-class FreezeModal extends PureComponent<{ name: string }, State> {
+
+class ClaimRewardsModal extends PureComponent<{ name: string }, State> {
   state = INITIAL_STATE;
 
   handleReset = () => this.setState({ ...INITIAL_STATE });
 
   handleStepChange = (stepId: StepId) => this.setState({ stepId });
-
-  handleChangeAddressVerified = (isAddressVerified: ?boolean, err: ?Error) => {
-    if (err && err.name !== "UserRefusedAddress") {
-      logger.critical(err);
-    }
-    this.setState({ isAddressVerified, verifyAddressError: err });
-  };
 
   handleReset = () =>
     this.setState({
@@ -38,13 +27,14 @@ class FreezeModal extends PureComponent<{ name: string }, State> {
   handleStepChange = (stepId: StepId) => this.setState({ stepId });
 
   render() {
-    const { stepId, isAddressVerified, verifyAddressError } = this.state;
+    const { stepId } = this.state;
+    const { name } = this.props;
 
     const isModalLocked = !["device", "confirmation"].includes(stepId);
 
     return (
       <Modal
-        name={this.props.name}
+        name={name}
         centered
         refocusWhenChange={stepId}
         onHide={this.handleReset}
@@ -52,12 +42,10 @@ class FreezeModal extends PureComponent<{ name: string }, State> {
         render={({ onClose, data }) => (
           <Body
             stepId={stepId}
+            name={name}
             onClose={onClose}
             onChangeStepId={this.handleStepChange}
             params={data || {}}
-            isAddressVerified={isAddressVerified}
-            verifyAddressError={verifyAddressError}
-            onChangeAddressVerified={this.handleChangeAddressVerified}
           />
         )}
       />
@@ -65,4 +53,4 @@ class FreezeModal extends PureComponent<{ name: string }, State> {
   }
 }
 
-export default FreezeModal;
+export default ClaimRewardsModal;

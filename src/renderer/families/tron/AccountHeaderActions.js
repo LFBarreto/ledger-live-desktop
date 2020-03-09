@@ -28,7 +28,8 @@ type Props = {
 
 const AccountHeaderActions = ({ account, parentAccount }: Props) => {
   const dispatch = useDispatch();
-  const { tronResources: { tronPower } = {} } = account;
+  const { tronResources } = account;
+  const tronPower = tronResources ? tronResources.tronPower : 0;
 
   const onClick = useCallback(() => {
     if (tronPower > 0) {

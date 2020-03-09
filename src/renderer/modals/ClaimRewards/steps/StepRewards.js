@@ -37,8 +37,6 @@ export default function StepAccount({
   account,
   parentAccount,
   receiveTokenMode,
-  onChangeAccount,
-  onChangeToken,
   reward,
 }: StepProps) {
   if (!account) return null;

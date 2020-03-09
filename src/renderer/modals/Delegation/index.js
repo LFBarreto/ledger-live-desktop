@@ -51,6 +51,7 @@ class DelegationModal extends PureComponent<
               onClose={onClose}
               onChangeStepId={this.handleStepChange}
               params={data || {}}
+              name={name}
             />
           )}
         />

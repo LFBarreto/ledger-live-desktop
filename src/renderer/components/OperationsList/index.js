@@ -101,8 +101,6 @@ export class OperationsList extends PureComponent<Props, State> {
       return null;
     }
 
-    console.log(account, "ACCOUNT");
-
     const groupedOperations = account
       ? groupAccountOperationsByDay(account, { count: nbToShow, withSubAccounts })
       : groupAccountsOperationsByDay(accounts, { count: nbToShow, withSubAccounts });

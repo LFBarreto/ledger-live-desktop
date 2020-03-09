@@ -1,260 +1,121 @@
 // @flow
-
-import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { bindActionCreators } from "redux";
-import { useDispatch, useSelector } from "react-redux";
-import { Trans, useTranslation } from "react-i18next";
-import invariant from "invariant";
-import type { Account, AccountLike, Operation } from "@ledgerhq/live-common/lib/types";
-import { useBakers, useRandomBaker } from "@ledgerhq/live-common/lib/families/tezos/bakers";
-import whitelist from "@ledgerhq/live-common/lib/families/tezos/bakers.whitelist-default";
-import { getAccountBridge } from "@ledgerhq/live-common/lib/bridge";
-import { getMainAccount, addPendingOperation } from "@ledgerhq/live-common/lib/account";
-import useBridgeTransaction from "@ledgerhq/live-common/lib/bridge/useBridgeTransaction";
-import { UserRefusedOnDevice } from "@ledgerhq/errors";
-import logger from "~/logger";
-import { updateAccountWithUpdater } from "~/renderer/actions/accounts";
-import Track from "~/renderer/analytics/Track";
-import { getCurrentDevice } from "~/renderer/reducers/devices";
-import { delegatableAccountsSelector } from "~/renderer/actions/general";
-import { closeModal, openModal } from "~/renderer/actions/modals";
-import Stepper from "~/renderer/components/Stepper";
+import React, { useState, useCallback } from "react";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { withTranslation } from "react-i18next";
+import { createStructuredSelector } from "reselect";
 import SyncSkipUnderPriority from "~/renderer/components/SyncSkipUnderPriority";
-import StepAccount, { StepAccountFooter } from "./steps/StepAccount";
-import StepStarter, { StepStarterFooter } from "./steps/StepStarter";
-import StepConnectDevice from "./steps/StepConnectDevice";
-import StepValidator from "./steps/StepValidator";
-import StepCustom, { StepCustomFooter } from "./steps/StepCustom";
-import StepConfirmation, { StepConfirmationFooter } from "./steps/StepConfirmation";
+import Track from "~/renderer/analytics/Track";
+
 import type { StepId, St } from "~/renderer/modals/Delegation/types";
+import type { Account, AccountLike } from "@ledgerhq/live-common/lib/types";
+import type { TFunction } from "react-i18next";
+import type { Device } from "~/renderer/reducers/devices";
 
-const createTitles = t => ({
-  account: t("delegation.flow.steps.account.title"),
-  starter: t("delegation.flow.steps.starter.title"),
-  summary: t("delegation.flow.steps.summary.title"),
-  validator: t("delegation.flow.steps.validator.title"),
-  undelegate: t("delegation.flow.steps.undelegate.title"),
-  confirmation: t("delegation.flow.steps.confirmation.title"),
-  custom: t("delegation.flow.steps.custom.title"),
-});
+import { getCurrentDevice } from "~/renderer/reducers/devices";
+import { closeModal } from "~/renderer/actions/modals";
 
-type Props = {|
+import Stepper from "~/renderer/components/Stepper";
+import StepStarter, { StepStarterFooter } from "./steps/StepStarter";
+
+type OwnProps = {|
   stepId: StepId,
   onClose: () => void,
   onChangeStepId: StepId => void,
   params: {
     account: ?AccountLike,
     parentAccount: ?Account,
-    mode: ?string,
-    stepId: ?StepId,
+    startWithWarning?: boolean,
+    receiveTokenMode?: boolean,
   },
+  name: string,
 |};
 
-const createSteps = (params): St[] => [
+type StateProps = {|
+  t: TFunction,
+  device: ?Device,
+  accounts: Account[],
+  device: ?Device,
+  closeModal: string => void,
+|};
+
+type Props = {|
+  ...OwnProps,
+  ...StateProps,
+|};
+
+const createSteps = (): St[] => [
   {
     id: "starter",
     component: StepStarter,
     excludeFromBreadcrumb: true,
     footer: StepStarterFooter,
   },
-  {
-    id: "account",
-    label: <Trans i18nKey="delegation.flow.steps.account.label" />,
-    component: StepAccount,
-    footer: StepAccountFooter,
-    excludeFromBreadcrumb: Boolean(params && params.account),
-  },
-  {
-    id: "validator",
-    excludeFromBreadcrumb: true,
-    component: StepValidator,
-    onBack: ({ transitionTo }) => transitionTo("starter"),
-  },
-  {
-    id: "custom",
-    excludeFromBreadcrumb: true,
-    component: StepCustom,
-    footer: StepCustomFooter,
-    // NB do not put a back here. we need to manage back ourself to reset the transaction back in initial state
-  },
-  {
-    id: "device",
-    excludeFromBreadcrumb: true,
-    component: StepConnectDevice,
-    onBack: ({ transitionTo }) => transitionTo("starter"),
-  },
-  {
-    id: "confirmation",
-    label: <Trans i18nKey="delegation.flow.steps.confirmation.label" />,
-    component: StepConfirmation,
-    footer: StepConfirmationFooter,
-  },
 ];
 
-const Body = ({ onChangeStepId, onClose, stepId, params }: Props) => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const device = useSelector(getCurrentDevice);
-  const accounts = useSelector(delegatableAccountsSelector);
-  const openedFromAccount = !!params.account;
-  const bakers = useBakers(whitelist);
-  const randomBaker = useRandomBaker(bakers);
+const mapStateToProps = createStructuredSelector({
+  device: getCurrentDevice,
+});
 
-  const [steps] = useState(() => createSteps(params));
-  const {
-    transaction,
-    setTransaction,
-    account,
-    parentAccount,
-    setAccount,
-    status,
-    bridgeError,
-    bridgePending,
-  } = useBridgeTransaction(() => {
-    const parentAccount = params && params.parentAccount;
-    const account = (params && params.account) || accounts[0];
-    return { account, parentAccount };
-  });
+const mapDispatchToProps = {
+  closeModal,
+};
 
-  // make sure tx is in sync
-  useEffect(() => {
-    if (!transaction || !account) return;
-    invariant(transaction.family === "tron", "tron tx");
+const Body = ({ t, stepId, device, closeModal, onChangeStepId, params, name }: Props) => {
+  const [steps] = useState(createSteps);
+  const { account, parentAccount } = params;
+  const [disabledSteps, setDisabledSteps] = useState([]);
+  const [token, setToken] = useState(null);
 
-    // make sure the mode is in sync (an account changes can reset it)
-    const patch: Object = {
-      mode: (params && params.mode) || "delegate",
-    };
-
-    // make sure that in delegate mode, a transaction recipient is set (random pick)
-    if (patch.mode === "delegate" && !transaction.recipient && stepId !== "custom" && randomBaker) {
-      patch.recipient = randomBaker.address;
-    }
-
-    // when changes, we set again
-    if (patch.mode !== transaction.mode || "recipient" in patch) {
-      setTransaction(
-        getAccountBridge(account, parentAccount).updateTransaction(transaction, patch),
-      );
-    }
-  }, [account, randomBaker, stepId, params, parentAccount, setTransaction, transaction]);
-
-  // make sure step id is in sync
-  useEffect(() => {
-    const stepId = params && params.stepId;
-    if (stepId) onChangeStepId(stepId);
-  }, [onChangeStepId, params]);
-
-  const [optimisticOperation, setOptimisticOperation] = useState(null);
-  const [transactionError, setTransactionError] = useState(null);
-  const [signed, setSigned] = useState(false);
-
-  const handleCloseModal = useCallback(() => dispatch(closeModal("MODAL_DELEGATE_TRON")), [
-    dispatch,
-  ]);
-  const handleOpenModal = useMemo(() => bindActionCreators(openModal, dispatch), [dispatch]);
-
-  const handleChangeAccount = useCallback(
-    (nextAccount: AccountLike, nextParentAccount: ?Account) => {
-      if (account !== nextAccount) {
-        setAccount(nextAccount, nextParentAccount);
-      }
-    },
-    [account, setAccount],
-  );
-
-  const handleRetry = useCallback(() => {
-    setTransactionError(null);
-    setOptimisticOperation(null);
-    setSigned(false);
-  }, []);
-
-  const handleTransactionError = useCallback((error: Error) => {
-    if (!(error instanceof UserRefusedOnDevice)) {
-      logger.critical(error);
-    }
-    setTransactionError(error);
-  }, []);
-
-  const handleOperationBroadcasted = useCallback(
-    (optimisticOperation: Operation) => {
-      if (!account) return;
-      const mainAccount = getMainAccount(account, parentAccount);
-      dispatch(
-        updateAccountWithUpdater(mainAccount.id, account =>
-          addPendingOperation(account, optimisticOperation),
-        ),
-      );
-      setOptimisticOperation(optimisticOperation);
-      setTransactionError(null);
-    },
-    [account, parentAccount, dispatch],
-  );
+  const handleCloseModal = useCallback(() => {
+    closeModal(name);
+  }, [closeModal, name]);
 
   const handleStepChange = useCallback(e => onChangeStepId(e.id), [onChangeStepId]);
 
-  const titles = useMemo(() => createTitles(t), [t]);
+  const handleResetSkip = useCallback(() => {
+    setDisabledSteps([]);
+  }, [setDisabledSteps]);
 
-  const title =
-    transaction && transaction.family === "tezos" && transaction.mode === "undelegate"
-      ? titles.undelegate
-      : titles[String(stepId)] || titles.account;
+  const handleRetry = useCallback(() => {
+    /** @TODO */
+  }, []);
 
-  const errorSteps = [];
-
-  if (transactionError) {
-    errorSteps.push(2);
-  } else if (bridgeError) {
-    errorSteps.push(1);
-  }
-
-  const isRandomChoice =
-    !transaction || !randomBaker || transaction.recipient === randomBaker.address;
-
-  const error = transactionError || bridgeError;
+  const handleSkipConfirm = useCallback(() => {
+    /** @TODO */
+  }, []);
 
   const stepperProps = {
-    title,
-    stepId,
-    openedWithAccount: Boolean(params && params.account),
-    steps,
-    errorSteps,
+    title: t("unfreeze.title"),
     device,
-    openedFromAccount,
     account,
     parentAccount,
-    transaction,
-    hideBreadcrumb:
-      stepId === "starter" ||
-      stepId === "validator" ||
-      stepId === "custom" ||
-      stepId === "confirmation",
-    error,
-    status,
-    bridgePending,
-    signed,
-    setSigned,
-    optimisticOperation,
-    openModal: handleOpenModal,
-    onClose,
-    isRandomChoice,
+    stepId,
+    steps,
+    errorSteps: [],
+    disabledSteps,
+    hideBreadcrumb: false,
+    token,
     closeModal: handleCloseModal,
-    onChangeAccount: handleChangeAccount,
-    onChangeTransaction: setTransaction,
     onRetry: handleRetry,
+    onSkipConfirm: handleSkipConfirm,
+    onResetSkip: handleResetSkip,
+    onChangeToken: setToken,
     onStepChange: handleStepChange,
-    onOperationBroadcasted: handleOperationBroadcasted,
-    onTransactionError: handleTransactionError,
+    onClose: handleCloseModal,
   };
-
-  if (!status) return null;
 
   return (
     <Stepper {...stepperProps}>
       <SyncSkipUnderPriority priority={100} />
-      <Track onUnmount event="CloseModalDelegate" />
+      <Track onUnmount event="CloseModalUnFreeze" />
     </Stepper>
   );
 };
 
-export default Body;
+const C: React$ComponentType<OwnProps> = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withTranslation(),
+)(Body);
+
+export default C;

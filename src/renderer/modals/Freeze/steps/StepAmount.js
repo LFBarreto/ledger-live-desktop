@@ -13,14 +13,7 @@ import Button from "~/renderer/components/Button";
 import CurrencyDownStatusAlert from "~/renderer/components/CurrencyDownStatusAlert";
 import ErrorBanner from "~/renderer/components/ErrorBanner";
 
-export default function StepAmount({
-  token,
-  account,
-  parentAccount,
-  receiveTokenMode,
-  onChangeAccount,
-  onChangeToken,
-}: StepProps) {
+export default function StepAmount({ token, account, parentAccount, receiveTokenMode }: StepProps) {
   const mainAccount = account ? getMainAccount(account, parentAccount) : null;
   const error = account ? getReceiveFlowError(account, parentAccount) : null;
 

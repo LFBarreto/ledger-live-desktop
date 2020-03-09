@@ -1,6 +1,7 @@
 // @flow
 
-import MODAL_DELEGATE from "./Delegation";
+import MODAL_DELEGATE from "~/renderer/families/tezos/DelegateFlowModal";
+import MODAL_DELEGATE_TRON from "./Delegation";
 import MODAL_EXPORT_OPERATIONS from "./ExportOperations";
 import MODAL_CONFIRM from "./ConfirmModal";
 import MODAL_MANAGE_TRON from "./ManageTron";
@@ -38,6 +39,7 @@ const modals: { [_: string]: React$ComponentType<any> } = {
   MODAL_UPDATE_FIRMWARE,
   MODAL_OPERATION_DETAILS,
   MODAL_DELEGATE,
+  MODAL_DELEGATE_TRON,
   MODAL_MIGRATE_ACCOUNTS,
   MODAL_EXPORT_ACCOUNTS,
   MODAL_TECHNICAL_DATA,

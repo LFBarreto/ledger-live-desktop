@@ -2,7 +2,7 @@
 import React from "react";
 import TrackPage from "~/renderer/analytics/TrackPage";
 import GenericStepConnectDevice from "~/renderer/modals/Send/steps/GenericStepConnectDevice";
-import type { StepProps } from "~/renderer/modals/Delegation/types";
+import type { StepProps } from "../types";
 
 export default function StepConnectDevice({
   account,

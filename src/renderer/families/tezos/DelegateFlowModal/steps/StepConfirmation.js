@@ -18,7 +18,7 @@ import ErrorDisplay from "~/renderer/components/ErrorDisplay";
 import SuccessDisplay from "~/renderer/components/SuccessDisplay";
 import BroadcastErrorDisclaimer from "~/renderer/components/BroadcastErrorDisclaimer";
 
-import type { StepProps } from "~/renderer/modals/Delegation/types";
+import type { StepProps } from "../types";
 
 const Container: ThemedComponent<{ shouldSpace?: boolean }> = styled(Box).attrs(() => ({
   alignItems: "center",

@@ -27,7 +27,7 @@ import StepSummary, { StepSummaryFooter } from "./steps/StepSummary";
 import StepValidator from "./steps/StepValidator";
 import StepCustom, { StepCustomFooter } from "./steps/StepCustom";
 import StepConfirmation, { StepConfirmationFooter } from "./steps/StepConfirmation";
-import type { StepId, St } from "~/renderer/modals/Delegation/types";
+import type { StepId, St } from "./types";
 
 const createTitles = t => ({
   account: t("delegation.flow.steps.account.title"),

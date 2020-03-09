@@ -11,7 +11,7 @@ import Button from "~/renderer/components/Button";
 import Box from "~/renderer/components/Box";
 import Text from "~/renderer/components/Text";
 import UserPlusIcon from "~/renderer/icons/UserPlus";
-import type { StepProps } from "~/renderer/modals/Delegation/types";
+import type { StepProps } from "../types";
 
 const IconWrapper = styled(Box).attrs(() => ({
   py: 4,

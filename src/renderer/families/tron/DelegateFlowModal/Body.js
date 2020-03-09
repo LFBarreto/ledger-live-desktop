@@ -149,7 +149,9 @@ const Body = ({ onChangeStepId, onClose, stepId, params }: Props) => {
   const [transactionError, setTransactionError] = useState(null);
   const [signed, setSigned] = useState(false);
 
-  const handleCloseModal = useCallback(() => dispatch(closeModal("MODAL_DELEGATE")), [dispatch]);
+  const handleCloseModal = useCallback(() => dispatch(closeModal("MODAL_DELEGATE_TRON")), [
+    dispatch,
+  ]);
   const handleOpenModal = useMemo(() => bindActionCreators(openModal, dispatch), [dispatch]);
 
   const handleChangeAccount = useCallback(

@@ -25,7 +25,7 @@ import TranslatedError from "~/renderer/components/TranslatedError";
 import InfoCircle from "~/renderer/icons/InfoCircle";
 import BakerImage from "../../BakerImage";
 import DelegationContainer from "../DelegationContainer";
-import type { StepProps } from "~/renderer/modals/Delegation/types";
+import type { StepProps } from "../types";
 
 const urlDelegationHelp = "https://support.ledger.com/hc/en-us/articles/360010653260";
 

@@ -90,7 +90,7 @@ const Delegation = ({ account, parentAccount }: Props) => {
   const onDelegate = useCallback(
     () =>
       dispatch(
-        openModal("MODAL_DELEGATE", {
+        openModal("MODAL_DELEGATE_TRON", {
           parentAccount,
           account,
         }),

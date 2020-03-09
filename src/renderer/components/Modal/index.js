@@ -8,8 +8,6 @@ import noop from "lodash/noop";
 
 import { Transition } from "react-transition-group";
 
-import Animated from "animated/lib/targets/react-dom";
-
 import { closeModal } from "~/renderer/actions/modals";
 import { isModalOpened, getModalData } from "~/renderer/reducers/modals";
 
@@ -116,20 +114,7 @@ type Props = {
   onBeforeOpen?: ({ data: * }) => *, // eslint-disable-line
 };
 
-type State = {
-  animShowHide: Animated.Value,
-  isInDOM: boolean,
-};
-
-class Modal extends PureComponent<Props, State> {
-  static getDerivedStateFromProps(nextProps: Props) {
-    const patch = {};
-    if (nextProps.isOpened) {
-      patch.isInDOM = true;
-    }
-    return patch;
-  }
-
+class Modal extends PureComponent<Props> {
   componentDidMount() {
     document.addEventListener("keyup", this.handleKeyup);
     document.addEventListener("keydown", this.preventFocusEscape);
@@ -211,19 +196,17 @@ class Modal extends PureComponent<Props, State> {
       >
         {state => {
           return (
-            <>
-              <Container
-                state={state}
-                centered={centered}
-                isOpened={isOpened}
-                onClick={this.handleClickOnBackdrop}
-              >
-                <BodyWrapper state={state} width={width} onClick={this.swallowClick}>
-                  {render && render(renderProps)}
-                  {children}
-                </BodyWrapper>
-              </Container>
-            </>
+            <Container
+              state={state}
+              centered={centered}
+              isOpened={isOpened}
+              onClick={this.handleClickOnBackdrop}
+            >
+              <BodyWrapper state={state} width={width} onClick={this.swallowClick}>
+                {render && render(renderProps)}
+                {children}
+              </BodyWrapper>
+            </Container>
           );
         }}
       </Transition>

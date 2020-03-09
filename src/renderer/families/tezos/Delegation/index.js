@@ -58,9 +58,7 @@ const Delegation = ({ account, parentAccount }: Props) => {
         <Wrapper horizontal>
           <Box style={{ maxWidth: "65%" }}>
             <Text ff="Inter|Medium|SemiBold" color="palette.text.shade60" fontSize={4}>
-              {t("delegation.delegationEarn", {
-                name: account.currency && account.currency.name ? account.currency.name : null,
-              })}
+              {t("delegation.delegationEarn")}
             </Text>
             <Box mt={2}>
               <LinkWithExternalIcon

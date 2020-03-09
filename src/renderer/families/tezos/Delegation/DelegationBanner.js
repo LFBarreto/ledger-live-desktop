@@ -4,7 +4,7 @@ import { Trans } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { dismissBanner } from "~/renderer/actions/settings";
-import { delegatableAccountsSelector } from "~/renderer/actions/general";
+import { haveUndelegatedAccountsSelector } from "~/renderer/actions/general";
 import { dismissedBannerSelectorLoaded } from "~/renderer/reducers/settings";
 import { openModal } from "~/renderer/actions/modals";
 import Box, { Card } from "~/renderer/components/Box";
@@ -23,7 +23,6 @@ const IconContainer = styled(Box).attrs(() => ({
   position: absolute;
   top: 0;
   right: 0;
-
   cursor: pointer;
 `;
 
@@ -35,7 +34,6 @@ const LogoContainer = styled(Box).attrs(() => ({
   position: absolute;
   top: 10px;
   left: 20px;
-
   ${IconContainer} {
     width: 100%;
     max-width: 110px;
@@ -45,11 +43,11 @@ const LogoContainer = styled(Box).attrs(() => ({
 const DelegationBanner = () => {
   const dispatch = useDispatch();
   const isDismissed = useSelector(dismissedBannerSelectorLoaded("DELEGATION_BANNER"));
-  const undelegatedAccounts = useSelector(delegatableAccountsSelector);
+  const hasUndelegated = useSelector(haveUndelegatedAccountsSelector);
 
   const closeBanner = useCallback(() => dispatch(dismissBanner("DELEGATION_BANNER")), [dispatch]);
 
-  return undelegatedAccounts && undelegatedAccounts.length && !isDismissed ? (
+  return hasUndelegated && !isDismissed ? (
     <Card
       bg="palette.primary.main"
       style={{ overflow: "hidden" }}
@@ -75,7 +73,7 @@ const DelegationBanner = () => {
               primary
               inverted
               onClick={() => {
-                dispatch(openModal("MODAL_DELEGATE", { account: undelegatedAccounts[0] }));
+                dispatch(openModal("MODAL_DELEGATE"));
               }}
               mr={1}
             >

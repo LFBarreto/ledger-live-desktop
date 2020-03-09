@@ -8,8 +8,10 @@ import SyncSkipUnderPriority from "~/renderer/components/SyncSkipUnderPriority";
 import Track from "~/renderer/analytics/Track";
 
 import type { Account, AccountLike } from "@ledgerhq/live-common/lib/types";
-import type { StepId, StepProps } from "./types";
+import type { StepId, StepProps, St } from "./types";
 import type { BigNumber } from "bignumber.js";
+import type { TFunction } from "react-i18next";
+import type { Device } from "~/renderer/reducers/devices";
 
 import { getCurrentDevice } from "~/renderer/reducers/devices";
 import { accountsSelector } from "~/renderer/reducers/accounts";
@@ -24,9 +26,9 @@ type OwnProps = {|
   stepId: StepId,
   onClose: () => void,
   onChangeStepId: StepId => void,
-  isAddressVerified?: boolean,
-  verifyAddressError?: Error,
-  onChangeAddressVerified?: (isAddressVerified: ?boolean, err: ?Error) => void,
+  isAddressVerified: ?boolean,
+  verifyAddressError: ?Error,
+  onChangeAddressVerified: (isAddressVerified: ?boolean, err: ?Error) => void,
   params: {
     account: ?AccountLike,
     parentAccount: ?Account,
@@ -131,7 +133,7 @@ const Body = ({
 
   useEffect(() => {
     const stepId =
-      params && params.startWithWarning ? "warning" : params.receiveTokenMode ? "account" : null;
+      params && params.startWithWarning ? null : params.receiveTokenMode ? "rewards" : null;
     if (stepId) onChangeStepId(stepId);
   }, [onChangeStepId, params]);
 

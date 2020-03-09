@@ -2,7 +2,6 @@
 import React from "react";
 import TrackPage from "~/renderer/analytics/TrackPage";
 import GenericStepConnectDevice from "~/renderer/modals/Send/steps/GenericStepConnectDevice";
-import type { StepProps } from "../types";
 
 export default function StepConnectDevice({
   account,
@@ -13,7 +12,7 @@ export default function StepConnectDevice({
   onOperationBroadcasted,
   onTransactionError,
   setSigned,
-}: StepProps) {
+}: any) {
   return (
     <>
       <TrackPage category="Delegation Flow" name="Step ConnectDevice" />

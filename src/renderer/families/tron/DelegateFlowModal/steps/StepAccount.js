@@ -14,7 +14,7 @@ import { SelectAccount } from "~/renderer/components/SelectAccount";
 import ErrorBanner from "~/renderer/components/ErrorBanner";
 import CurrencyDownStatusAlert from "~/renderer/components/CurrencyDownStatusAlert";
 
-import type { StepProps } from "../types";
+import type { StepProps } from "~/renderer/modals/Delegation/types";
 
 const StepAccount = ({
   account,

@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { Trans } from "react-i18next";
 import styled from "styled-components";
-import type { AccountLike, Account } from "@ledgerhq/live-common/lib/types";
+import type { Account } from "@ledgerhq/live-common/lib/types";
 
 import { getTronSuperRepresentatives, getNextVotingDate } from "@ledgerhq/live-common/lib/api/Tron";
 
@@ -25,7 +25,7 @@ import moment from "moment";
 import ToolTip from "~/renderer/components/Tooltip";
 
 type Props = {
-  account: AccountLike,
+  account: Account,
   parentAccount: ?Account,
 };
 
@@ -100,7 +100,7 @@ const Delegation = ({ account, parentAccount }: Props) => {
 
   const hasRewards = unwithdrawnReward > 0;
 
-  return account.type === "ChildAccount" && !tronPower ? null : (
+  return (
     <>
       <Box horizontal alignItems="center" justifyContent="space-between">
         <Text

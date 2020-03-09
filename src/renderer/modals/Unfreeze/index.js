@@ -3,11 +3,31 @@
 import React, { PureComponent } from "react";
 import Modal from "~/renderer/components/Modal";
 import Body from "./Body";
+import logger from "~/logger";
 import type { StepId } from "./types";
+type State = {
+  stepId: StepId,
+  isAddressVerified: ?boolean,
+  verifyAddressError: ?Error,
+};
 
-class UnfreezeModal extends PureComponent<{ name: string }, { stepId: StepId }> {
-  state = {
-    stepId: "amount",
+const INITIAL_STATE = {
+  stepId: "amount",
+  isAddressVerified: null,
+  verifyAddressError: null,
+};
+class UnfreezeModal extends PureComponent<{ name: string }, State> {
+  state = INITIAL_STATE;
+
+  handleReset = () => this.setState({ ...INITIAL_STATE });
+
+  handleStepChange = (stepId: StepId) => this.setState({ stepId });
+
+  handleChangeAddressVerified = (isAddressVerified: ?boolean, err: ?Error) => {
+    if (err && err.name !== "UserRefusedAddress") {
+      logger.critical(err);
+    }
+    this.setState({ isAddressVerified, verifyAddressError: err });
   };
 
   handleReset = () =>
@@ -18,7 +38,7 @@ class UnfreezeModal extends PureComponent<{ name: string }, { stepId: StepId }> 
   handleStepChange = (stepId: StepId) => this.setState({ stepId });
 
   render() {
-    const { stepId } = this.state;
+    const { stepId, isAddressVerified, verifyAddressError } = this.state;
 
     const isModalLocked = !["device", "confirmation"].includes(stepId);
 
@@ -36,6 +56,9 @@ class UnfreezeModal extends PureComponent<{ name: string }, { stepId: StepId }> 
             onChangeStepId={this.handleStepChange}
             params={data || {}}
             name={this.props.name}
+            isAddressVerified={isAddressVerified}
+            verifyAddressError={verifyAddressError}
+            onChangeAddressVerified={this.handleChangeAddressVerified}
           />
         )}
       />

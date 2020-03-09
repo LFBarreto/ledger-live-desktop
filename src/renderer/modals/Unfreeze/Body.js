@@ -9,6 +9,8 @@ import Track from "~/renderer/analytics/Track";
 
 import type { StepId, StepProps, St } from "./types";
 import type { Account, AccountLike } from "@ledgerhq/live-common/lib/types";
+import type { TFunction } from "react-i18next";
+import type { Device } from "~/renderer/reducers/devices";
 
 import { getCurrentDevice } from "~/renderer/reducers/devices";
 import { accountsSelector } from "~/renderer/reducers/accounts";
@@ -131,7 +133,7 @@ const Body = ({
 
   useEffect(() => {
     const stepId =
-      params && params.startWithWarning ? "warning" : params.receiveTokenMode ? "account" : null;
+      params && params.startWithWarning ? null : params.receiveTokenMode ? "amount" : null;
     if (stepId) onChangeStepId(stepId);
   }, [onChangeStepId, params]);
 

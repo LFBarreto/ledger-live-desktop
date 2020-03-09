@@ -9,15 +9,14 @@ import type { ThemedComponent } from "~/renderer/styles/StyleProvider";
 
 import { TableLine } from "./Header";
 
-const Wrapper: ThemedComponent<{ isPending: boolean }> = styled.div`
+const Wrapper: ThemedComponent<*> = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 16px 20px;
-  opacity: ${p => (p.isPending ? 0.5 : 1)};
 `;
 
-const Column: ThemedComponent<{ clickable: boolean }> = styled(TableLine).attrs(() => ({
+const Column: ThemedComponent<{ clickable?: boolean }> = styled(TableLine).attrs(() => ({
   ff: "Inter|Bold",
   color: "palette.text.shade70",
   fontSize: 4,
@@ -30,7 +29,7 @@ type Props = {
   address: string,
   amount: number,
   duration: string,
-  percentTP: number,
+  percentTP: string,
   currency: *,
 };
 

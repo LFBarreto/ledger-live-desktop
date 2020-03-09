@@ -122,10 +122,6 @@ type State = {
 };
 
 class Modal extends PureComponent<Props, State> {
-  state = {
-    animShowHide: new Animated.Value(0),
-  };
-
   static getDerivedStateFromProps(nextProps: Props) {
     const patch = {};
     if (nextProps.isOpened) {

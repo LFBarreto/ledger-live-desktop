@@ -15,7 +15,7 @@ import Button from "~/renderer/components/Button";
 import ModalContent from "~/renderer/components/Modal/ModalContent";
 import UserPlusIcon from "~/renderer/icons/UserPlus";
 import BakerImage from "../../BakerImage";
-import type { StepProps } from "../types";
+import type { StepProps } from "~/renderer/modals/Delegation/types";
 
 const Row = styled(Box).attrs(() => ({
   horizontal: true,

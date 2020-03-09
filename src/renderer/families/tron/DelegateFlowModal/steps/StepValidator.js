@@ -4,7 +4,7 @@ import invariant from "invariant";
 import TrackPage from "~/renderer/analytics/TrackPage";
 import Box from "~/renderer/components/Box";
 
-import type { StepProps } from "../types";
+import type { StepProps } from "~/renderer/modals/Delegation/types";
 
 const StepValidator = ({
   account,

@@ -13,7 +13,7 @@ import Button from "~/renderer/components/Button";
 import Box from "~/renderer/components/Box";
 import LinkWithExternalIcon from "~/renderer/components/LinkWithExternalIcon";
 
-import type { StepProps } from "../types";
+import type { StepProps } from "~/renderer/modals/Delegation/types";
 
 const Row = styled(Box).attrs(p => ({
   horizontal: true,

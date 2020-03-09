@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import { Trans } from "react-i18next";
 import styled from "styled-components";
 
-import type { StepProps } from "../types";
+import type { StepProps } from "~/renderer/modals/Delegation/types";
 
 import { urls } from "~/config/urls";
 import { openURL } from "~/renderer/linking";

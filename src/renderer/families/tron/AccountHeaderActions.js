@@ -6,20 +6,23 @@ import { useDispatch } from "react-redux";
 
 import { Trans } from "react-i18next";
 
+import type { ThemedComponent } from "~/renderer/styles/StyleProvider";
+import type { Account } from "@ledgerhq/live-common/lib/types";
+
 import Button from "~/renderer/components/Button";
 import Box from "~/renderer/components/Box/Box";
 import IconChartLine from "~/renderer/icons/ChartLine";
 import CryptoCurrencyIcon from "~/renderer/components/CryptoCurrencyIcon";
 import { openModal } from "~/renderer/actions/modals";
 
-const ButtonBase = styled(Button)`
+const ButtonBase: ThemedComponent<*> = styled(Button)`
   height: 34px;
   padding-top: 0;
   padding-bottom: 0;
 `;
 
 type Props = {
-  account: AccountLike,
+  account: Account,
   parentAccount: ?Account,
 };
 

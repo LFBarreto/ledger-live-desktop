@@ -18,7 +18,7 @@ export const Wrapper: ThemedComponent<{}> = styled.div`
   border-bottom: 1px solid ${p => p.theme.colors.palette.divider};
 `;
 
-export const TableLine = styled(Text).attrs(() => ({
+export const TableLine: ThemedComponent<{}> = styled(Text).attrs(() => ({
   ff: "Inter|SemiBold",
   color: "palette.text.shade60",
   fontSize: 3,

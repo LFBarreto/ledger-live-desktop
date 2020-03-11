@@ -516,7 +516,7 @@
       "rewards": {
         "title": "Rewards",
         "description": "Congratulations! You earned <1>{{amount}}</1> by voting for validators.",
-        "info": "---INFO TO BE FILLED---"
+        "info": "Rewards can be claimed once every 24 hours."
       },
       "connectDevice": {
         "title": "Device"

@@ -29,7 +29,7 @@ const Img = styled(Image)`
 `;
 
 const IdContainer = styled(Text).attrs(() => ({
-  ff: "Inter|Regular",
+  ff: "Inter|Bold",
   fontSize: 1,
   color: "palette.primary.contrastText",
 }))`
